@@ -1,43 +1,42 @@
 package org.example;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try{
-            Scanner scanner = new Scanner(System.in);
-            Integer id = -1;
-            while(true){
-                System.out.println("Which calculator you want to try?");
-                System.out.println("1. EMI\n2. Gratuity\nPress any other key to exit\n");
-                try{
-                    id = scanner.nextInt();
-                }
-                catch(InputMismatchException exception){
-                    return;
-                }
-                if(id>=0 && id<8){
-                    break;
-                }
-                else{
-                    System.out.println("Please enter valid option!");
-                }
-            }
+        Scanner scanner = new Scanner(System.in);
 
-            if(id==0){
-                System.out.println("Thanks!!");
+        while (true) {
+            System.out.println("\n===== Welcome to the Calculator Menu =====");
+            System.out.println("1. EMI Calculator");
+            System.out.println("2. Gratuity Calculator");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+
+            try {
+                int choice = Integer.parseInt(scanner.nextLine().trim());
+
+                switch (choice) {
+                    case 0:
+                        System.out.println("Thank you for using the calculator. Goodbye!");
+                        return;
+
+                    case 1:
+                        new EMICalculator().init();
+                        break;
+
+                    case 2:
+                        new GratuityCalculator().init();
+                        break;
+
+                    default:
+                        System.out.println("Invalid option! Please select a valid choice from the menu.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+            } catch (Exception e) {
+                System.out.println("An unexpected error occurred: " + e.getMessage());
             }
-            else if(id==1){
-                EMICalculator calc = new EMICalculator();
-                calc.init();
-            }
-            else if(id==2){
-                GratuityCalculator calc = new GratuityCalculator();
-                calc.init();
-            }
-        } catch (Exception exception){
-            return;
         }
     }
 }
