@@ -11,6 +11,7 @@ public class Main {
             System.out.println("1. EMI Calculator");
             System.out.println("2. Gratuity Calculator");
             System.out.println("3. Lumpsum Calculator");
+            System.out.println("4. PPF Calculator");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -32,6 +33,10 @@ public class Main {
 
                     case 3:
                         new LumpsumCalculator().init();
+                        break;
+
+                    case 4:
+                        new PPFCalculator().init();
                         break;
 
                     default:
