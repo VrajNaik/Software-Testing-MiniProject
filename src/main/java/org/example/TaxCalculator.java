@@ -142,4 +142,8 @@ public class TaxCalculator {
         slab.get(2).put(0,all);
 
     }
+
+    public TaxCalculator(){
+        initSlab();
+    }
 }
