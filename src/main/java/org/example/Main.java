@@ -12,6 +12,7 @@ public class Main {
             System.out.println("2. Gratuity Calculator");
             System.out.println("3. Lumpsum Calculator");
             System.out.println("4. PPF Calculator");
+            System.out.println("5. SIP Calculator");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -37,6 +38,10 @@ public class Main {
 
                     case 4:
                         new PPFCalculator().init();
+                        break;
+
+                    case 5:
+                        new SIPCalculator().init();
                         break;
 
                     default:
