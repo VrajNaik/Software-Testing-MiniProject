@@ -268,4 +268,33 @@ public class TaxCalculator {
         }
         return surCharge;
     }
+
+    private Double calcTaxForDomesticCompany(Double taxableAmount) {
+        Long  id;
+        Double taxAmount;
+
+        while (true) {
+            System.out.println("Please choose which section you have opted:\n1. 115BA\n2. 115BAA\n3. 115BAB\n 4.None\n");
+            id = scanner.nextLong();
+            if (id != 1 && id != 2 && id != 3 && id != 4) {
+                System.out.println("Please select correct section\n");
+                continue;
+            }
+            break;
+        }
+        if(id==1){
+            taxAmount = 25*(taxableAmount/100);
+        }
+        else if(id==2){
+            taxAmount = 22*(taxableAmount/100);
+        }
+        else if(id==3){
+            taxAmount = 15*taxableAmount/100;
+        }
+        else{
+            taxAmount = 30*taxableAmount/100;
+        }
+        return taxAmount;
+    }
+
 }
