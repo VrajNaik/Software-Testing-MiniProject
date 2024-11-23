@@ -146,4 +146,115 @@ public class TaxCalculator {
     public TaxCalculator(){
         initSlab();
     }
+
+    public Long init(){
+        try{
+            scanner = new Scanner(System.in);
+            Integer type;
+
+            while (true) {
+                System.out.println("Select type:\n1.Individual\n2.Domestic Company\n3.Foreign Company\n0.To Exit");
+                type = scanner.nextInt();
+                if(type==0){
+                    return -1L;
+                }
+                if (type != 1 && type != 2 && type!=3) {
+                    System.out.println("Select valid schemeId\n");
+                    continue;
+                }
+                break;
+            }
+            Double income, deductedAmount, taxableAmount, taxAmount, surCharge, healthEduCess;
+            // For Foreign Company
+            if(type==3){
+                System.out.println("Enter your total turnOver:");
+                income = scanner.nextDouble();
+
+                deductedAmount = calcDeductionForForeignCompany(income);
+                setDeductedAmount(deductedAmount);
+                taxableAmount = income - deductedAmount;
+                setTaxableAmount(taxableAmount);
+                taxAmount = calcTaxForForeignCompany(taxableAmount);
+                setTaxAmount(taxAmount);
+                surCharge = calcSurchargeForForeignCompany(taxAmount, taxableAmount);
+                setSurCharge(surCharge);
+                healthEduCess = calcHealthAndEducationCess(taxAmount);
+                setHealthAndEduCess(healthEduCess);
+                setNetTax(getTaxAmount() + getSurCharge() + getHealthAndEduCess());
+
+                System.out.println("You have to pay " + getNetTax().longValue() + " as tax!!");
+                return getNetTax().longValue();
+            }
+            // For Domestic Company
+            else if(type==2){
+                System.out.println("Enter your total turnOver:");
+                income = scanner.nextDouble();
+
+                deductedAmount = calcDeductionForDomesticCompany(income);
+                setDeductedAmount(deductedAmount);
+                taxableAmount = income - deductedAmount;
+                setTaxableAmount(taxableAmount);
+                taxAmount = calcTaxForDomesticCompany(taxableAmount);
+                setTaxAmount(taxAmount);
+                surCharge = calcSurchargeForDomesticCompany(taxAmount, taxableAmount);
+                setSurCharge(surCharge);
+                healthEduCess = calcHealthAndEducationCess(taxAmount);
+                setHealthAndEduCess(healthEduCess);
+                setNetTax(getTaxAmount() + getSurCharge() + getHealthAndEduCess());
+
+                System.out.println("You have to pay " + getNetTax().longValue() + " as tax!!");
+                return getNetTax().longValue();
+            }
+            // For an Individual
+            else{
+                Long schemeId;
+
+                while (true) {
+                    System.out.println("Select you regime:\n1.Old Tax Regime\n2.New tax Regime\n");
+                    schemeId = scanner.nextLong();
+                    if (schemeId != 1 && schemeId != 2) {
+                        System.out.println("Select valid schemeId\n");
+                        continue;
+                    }
+                    break;
+                }
+                setRegimeId(schemeId);
+
+                Long ageGroup = 0L;
+
+                while (getRegimeId() == 1) {
+                    System.out.println("Select your age group:\n1. Below 60 year\n2. 60 or above 60 and below 80\n3. 80 or above 80\n");
+                    ageGroup = scanner.nextLong();
+                    if (ageGroup != 1 && ageGroup != 2 && ageGroup != 3) {
+                        System.out.println("Please select correct age group\n");
+                        continue;
+                    }
+                    break;
+                }
+                setAgeGroupId(ageGroup);
+
+                System.out.println("Enter your income:");
+                income = scanner.nextDouble();
+
+
+                deductedAmount = calcDeductionForIndividual(income, getRegimeId());
+                setDeductedAmount(deductedAmount);
+                taxableAmount = income - deductedAmount;
+                setTaxableAmount(taxableAmount);
+                taxAmount = calcTaxForIndividual(getTaxableAmount(), getRegimeId(), getAgeGroupId());
+                setTaxAmount(taxAmount);
+                surCharge = calcSurchargeForIndividual(getTaxAmount(), getTaxableAmount());
+                setSurCharge(surCharge);
+                healthEduCess = calcHealthAndEducationCess(getTaxAmount());
+                setHealthAndEduCess(healthEduCess);
+                setNetTax(getTaxAmount() + getSurCharge() + getHealthAndEduCess());
+
+                System.out.println("You have to pay " + getNetTax().longValue() + " as tax!!");
+                return netTax.longValue();
+            }
+        }
+        catch(InputMismatchException exception){
+            return -1L;
+        }
+    }
 }
