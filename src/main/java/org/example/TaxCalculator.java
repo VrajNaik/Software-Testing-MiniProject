@@ -297,4 +297,26 @@ public class TaxCalculator {
         return taxAmount;
     }
 
+    private Double calcDeductionForDomesticCompany(Double income) {
+        Double deduction;
+        Double ngoDonation, goDonation;
+        Double netQualifyingLimit = 10.0*income/100.0;
+        System.out.println("Enter your donation to any approved funds, trust, charitable institution:");
+        ngoDonation = scanner.nextDouble();
+        System.out.println("Enter your donation to any government funds:");
+        goDonation = scanner.nextDouble();
+        deduction = Math.min(ngoDonation + goDonation, netQualifyingLimit);
+        return Math.max(0,deduction);
+    }
+
+    private Double calcSurchargeForForeignCompany(Double taxAmount, Double taxableAmount) {
+        Double surCharge = null;
+        if(taxableAmount>10000000 && taxableAmount<=100000000){
+            surCharge = 0.02*taxAmount;
+        }
+        else if(taxableAmount>100000000){
+            surCharge = 0.05*taxAmount;
+        }
+        return surCharge;
+    }
 }
