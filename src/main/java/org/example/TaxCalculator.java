@@ -341,4 +341,15 @@ public class TaxCalculator {
         return taxAmount;
     }
 
+    private Double calcDeductionForForeignCompany(Double income) {
+        Double deduction, ngoDonation, goDonation;
+        Double netQualifyingLimit = 10.0*income/100.0;
+        System.out.println("Enter your donation to any approved funds, trust, charitable institution:");
+        ngoDonation = scanner.nextDouble();
+        System.out.println("Enter your donation to any government funds:");
+        goDonation = scanner.nextDouble();
+        deduction = Math.min(ngoDonation + goDonation, netQualifyingLimit);
+        return Math.max(0,deduction);
+    }
+
 }
