@@ -257,4 +257,15 @@ public class TaxCalculator {
             return -1L;
         }
     }
+
+    private Double calcSurchargeForDomesticCompany(Double taxAmount, Double taxableAmount) {
+        Double surCharge = 0.0;
+        if(taxableAmount>10000000 && taxableAmount<=100000000){
+            surCharge = 0.07*taxAmount;
+        }
+        else if(taxableAmount>100000000){
+            surCharge = 0.12*taxAmount;
+        }
+        return surCharge;
+    }
 }
