@@ -319,4 +319,26 @@ public class TaxCalculator {
         }
         return surCharge;
     }
+
+    private Double calcTaxForForeignCompany(Double taxableAmount) {
+        Long  id;
+        Double taxAmount = null;
+
+        while (true) {
+            System.out.println("Do you fall in the below category.\nRoyalty from Government or an Indian concern in pursuance of an agreement made with the Indian concern after 31st March 1961, but before 1st April 1976, or fees for rendering technical services in pursuance of an agreement made after 29th February 1964 but before 1st April 1976 and where such agreement has, in either case, been approved by the Central Government:\n1. Yes\n0. No\n");
+            id = scanner.nextLong();
+            if (id != 1 && id != 0) {
+                System.out.println("Please select option\n");
+                continue;
+            }
+            break;
+        }
+        if(id==1){
+            taxAmount = 50*(taxableAmount/100);
+        } else if (id==0) {
+            taxAmount = 40*(taxableAmount/100);
+        }
+        return taxAmount;
+    }
+
 }
