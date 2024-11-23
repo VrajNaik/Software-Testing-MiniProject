@@ -10,6 +10,7 @@ public class Main {
             System.out.println("\n===== Welcome to the Calculator Menu =====");
             System.out.println("1. EMI Calculator");
             System.out.println("2. Gratuity Calculator");
+            System.out.println("3. Lumpsum Calculator");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -27,6 +28,10 @@ public class Main {
 
                     case 2:
                         new GratuityCalculator().init();
+                        break;
+
+                    case 3:
+                        new LumpsumCalculator().init();
                         break;
 
                     default:
