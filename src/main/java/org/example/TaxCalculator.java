@@ -352,4 +352,78 @@ public class TaxCalculator {
         return Math.max(0,deduction);
     }
 
+    private Double calcTaxForIndividual(Double taxableAmount, Long regimeId, Long ageGroupId){
+
+        Double taxAmount = 0.0;
+        ArrayList<ArrayList<Integer>> slabs = slab.get(getRegimeId().intValue()).get(getAgeGroupId().intValue());
+
+        for(int i=0;i<slabs.size() && taxableAmount>0;i++){
+            Double minA;
+            if(i==slabs.size()-1){
+                minA = taxableAmount;
+            }else{
+                minA = Math.min(taxableAmount,slabs.get(i).get(0));
+            }
+
+            taxAmount += (minA * slabs.get(i).get(1))/100;
+            taxableAmount -= minA;
+        }
+
+        return taxAmount;
+    }
+
+    private Double calcDeductionForIndividual(Double income, Long regimeId) throws InputMismatchException{
+
+        Double deductionAmount80c = 0.0;
+        Double deductionAmount80ccd1b = 0.0;
+
+        // for old regime
+        if(regimeId==1){
+            System.out.println("Enter amount of Life Insurance Premium (0 if none)");
+            deductionAmount80c += scanner.nextDouble();
+            System.out.println("Enter amount of Provident Fund (0 if none)");
+            deductionAmount80c += scanner.nextDouble();
+            System.out.println("Enter value of equity shares that you hold (0 if none)");
+            deductionAmount80c += scanner.nextDouble();
+            System.out.println("Enter amount of tution fees (0 if none)");
+            deductionAmount80c += scanner.nextDouble();
+            deductionAmount80c = Math.min(deductionAmount80c, 1500000);
+
+            System.out.println("Enter Pension Scheme of Central Government amount(0 if none)");
+            deductionAmount80ccd1b = Math.min(scanner.nextDouble(), 50000);
+
+        }
+        // for new regime
+        else{
+            System.out.println("Enter Pension Scheme of Central Government amount(0 if none)");
+            deductionAmount80ccd1b = Math.min(scanner.nextDouble(), 50000);
+        }
+
+        Double deduction = deductionAmount80ccd1b + deductionAmount80c;
+        return Math.max(0,deduction);
+    }
+
+    private Double calcSurchargeForIndividual(Double taxAmount, Double taxableAmount){
+        Double surCharge = 0.0;
+        if(taxableAmount>5000000 && taxableAmount<=10000000){
+            surCharge = 0.1*taxAmount;
+        }
+        else if(taxableAmount>10000000 && taxableAmount<=20000000){
+            surCharge = 0.15*taxAmount;
+        }
+        else if(taxableAmount>20000000 && taxableAmount<=50000000){
+            surCharge = 0.25*taxAmount;
+        }
+        else if(taxableAmount>50000000){
+            surCharge = 0.37*taxAmount;
+        }
+        return surCharge;
+    }
+
+    Double calcHealthAndEducationCess(Double taxAmount){
+        Double charge;
+        charge = 0.04*taxAmount;
+        return charge;
+    }
+
 }
