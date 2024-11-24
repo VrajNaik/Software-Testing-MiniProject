@@ -4,10 +4,21 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Advanced Goal Savings Calculator with exception handling and complex control flow.
+ * Advanced Goal Savings Calculator with exception handling, nested conditions,
+ * and modular structure for integration into a menu system.
  */
 public class GoalSavingsCalculator {
 
+    /**
+     * Entry point for the Goal Savings Calculator.
+     */
+    public void init() {
+        calculateGoalSavings();
+    }
+
+    /**
+     * Method to calculate the savings required to meet a financial goal.
+     */
     public void calculateGoalSavings() {
         Scanner scanner = new Scanner(System.in);
         double goalAmount = 0.0, initialSavings = 0.0, returnRate = 0.0;
@@ -65,7 +76,7 @@ public class GoalSavingsCalculator {
             double remainingGoal = goalAmount - futureValueOfSavings;
 
             if (remainingGoal <= 0) {
-                System.out.println("Congratulations! Your current savings are sufficient to achieve your goal.");
+                System.out.println("\nCongratulations! Your current savings are sufficient to achieve your goal.");
             } else {
                 int periods = frequency.equalsIgnoreCase("monthly") ? years * 12 : years;
                 double periodicRate = returnRate / (frequency.equalsIgnoreCase("monthly") ? 12 : 1) / 100;

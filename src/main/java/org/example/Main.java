@@ -98,6 +98,11 @@ public class Main {
                 new RetirementCorpusCalculator().init();
                 break;
 
+            case 9:
+                System.out.println("\n---- GOAL SAVINGS CALCULATOR ----");
+                new GoalSavingsCalculator().init();
+                break;
+
             default:
                 displayInvalidOptionMessage();
         }
