@@ -17,7 +17,7 @@ public class Main {
 
                 if (choice == 0) {
                     displayExitMessage();
-                    break;
+                    break; // Exits the loop when choice is 0
                 }
 
                 handleMenuChoice(choice);
@@ -28,6 +28,8 @@ public class Main {
                 displayUnexpectedErrorMessage(e);
             }
         }
+
+        scanner.close(); // Close the scanner when done
     }
 
     // Enhanced welcome message with ASCII art and color

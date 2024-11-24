@@ -1,95 +1,83 @@
 package org.example;
 
+import javax.print.attribute.standard.Finishings;
 import java.util.Scanner;
 
 public class EMICalculator {
-    private Double loanAmount;   // Loan amount definition
-    private Double interestRate; // Interest rate definition
-    private Double loanTenure;   // Loan tenure definition
+    private Double loanAmount;
+    private Double interestRate;
+    private Double loanTenure;
 
     public Double getLoanAmount() {
-        return loanAmount; // Use: accessing loan amount
+        return loanAmount;
     }
 
     public void setLoanAmount(Double loanAmount) {
-        this.loanAmount = loanAmount; // Definition: assigning loan amount
+        this.loanAmount = loanAmount;
     }
 
     public Double getInterestRate() {
-        return interestRate; // Use: accessing interest rate
+        return interestRate;
     }
 
     public void setInterestRate(Double interestRate) {
-        this.interestRate = interestRate; // Definition: assigning interest rate
+        this.interestRate = interestRate;
     }
 
     public Double getLoanTenure() {
-        return loanTenure; // Use: accessing loan tenure
+        return loanTenure;
     }
 
     public void setLoanTenure(Double loanTenure) {
-        this.loanTenure = loanTenure; // Definition: assigning loan tenure
+        this.loanTenure = loanTenure;
     }
 
-    public Long init() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            // Prompt and validate loan amount
-            setLoanAmount(promptForPositiveDouble(scanner, "Enter your loan amount: "));
+    public Long init(){
+        try{
+            Scanner scanner = new Scanner(System.in);
+            Double val;
 
-            // Prompt and validate interest rate
-            setInterestRate(promptForDoubleInRange(scanner, "Enter rate of interest (0-100%): ", 0.0, 100.0));
-
-            // Prompt and validate loan tenure
-            setLoanTenure(promptForPositiveDouble(scanner, "Enter loan tenure in years: "));
-
-            // Use: Calculate EMI
-            Long totalEMI = calculateEMI();
-            System.out.println("Your EMI is: " + totalEMI);
-            return totalEMI;
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
-            return -1L; // Return error indicator
-        }
-    }
-
-    private Double promptForPositiveDouble(Scanner scanner, String message) {
-        while (true) {
-            System.out.print(message);
-            try {
-                Double input = Double.parseDouble(scanner.nextLine().trim());
-                if (input > 0) {
-                    return input; // Valid positive input
-                } else {
-                    System.out.println("Please enter a positive value.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric value.");
+            while(true) {
+                System.out.print("Enter your loan amount : ");
+                val = scanner.nextDouble();
+                if(val>0)
+                    break;
+                System.out.println("Please enter valid loan amount: ");
             }
-        }
-    }
+            setLoanAmount(val);
 
-    private Double promptForDoubleInRange(Scanner scanner, String message, double min, double max) {
-        while (true) {
-            System.out.print(message);
-            try {
-                Double input = Double.parseDouble(scanner.nextLine().trim());
-                if (input >= min && input <= max) {
-                    return input; // Valid range input
-                } else {
-                    System.out.println("Please enter a value between " + min + " and " + max + ".");
+            while(true) {
+                System.out.print("Enter rate of interest : ");
+                val = scanner.nextDouble();
+                if(val>=0 && val<=100){
+                    break;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric value.");
+                System.out.println("Please Enter valid rate of interest: ");
             }
+            setInterestRate(val);
+
+            while(true) {
+                System.out.print("Enter loan tenure in years : ");
+                val = scanner.nextDouble();
+                if(val>0){
+                    break;
+                }
+                System.out.println("Please Enter positive no. of years in  : ");
+            }
+            setLoanTenure(val);
+
+            Long totalAmnt = calculateReturn();
+            System.out.println("Your EMI : " + totalAmnt);
+            return totalAmnt;
+        }
+        catch (Exception e){
+            return -1L;
         }
     }
 
-    public Long calculateEMI() {
-        // Use: Loan amount, interest rate, and tenure in EMI formula
-        double monthlyInterestRate = getInterestRate() / 1200; // Monthly interest rate
-        double months = getLoanTenure() * 12; // Total months
-        double emi = (getLoanAmount() * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, months)) /
-                (Math.pow(1 + monthlyInterestRate, months) - 1);
-        return (long) emi; // Return rounded EMI value
+    public Long calculateReturn(){
+        Double amnt = (getLoanAmount() * (getInterestRate()/1200) * (Math.pow(1+(getInterestRate()/1200), getLoanTenure()*12))) / (Math.pow(1+(getInterestRate()/1200), (getLoanTenure()*12))-1);
+        return  amnt.longValue();
     }
+
 }

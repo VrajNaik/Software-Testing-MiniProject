@@ -4,94 +4,82 @@ import java.util.Scanner;
 
 public class LumpsumCalculator {
 
-    private Double principleAmount; // Principal amount definition
-    private Double interestRate;    // Interest rate definition
-    private Double timePeriod;      // Time period definition
-
-    public Double getPrincipleAmount() {
-        return principleAmount; // Use: accessing principle amount
-    }
-
-    public void setPrincipleAmount(Double principleAmount) {
-        this.principleAmount = principleAmount; // Definition: assigning principle amount
-    }
+    private Double principleAmount;
+    private Double interestRate;
+    private Double timePeriod;
 
     public Double getInterestRate() {
-        return interestRate; // Use: accessing interest rate
+        return interestRate;
     }
 
     public void setInterestRate(Double interestRate) {
-        this.interestRate = interestRate; // Definition: assigning interest rate
+        this.interestRate = interestRate;
+    }
+    public Double getPrincipleAmount() {
+        return principleAmount;
+    }
+
+    public void setPrincipleAmount(Double principleAmount) {
+        this.principleAmount = principleAmount;
     }
 
     public Double getTimePeriod() {
-        return timePeriod; // Use: accessing time period
+        return timePeriod;
     }
 
     public void setTimePeriod(Double timePeriod) {
-        this.timePeriod = timePeriod; // Definition: assigning time period
+        this.timePeriod = timePeriod;
     }
 
-    public LumpsumCalculator() {
-        // Default constructor
+    public LumpsumCalculator(){
     }
 
-    public Long init() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            // Prompt and validate principal amount
-            setPrincipleAmount(promptForPositiveDouble(scanner, "Enter your total investment (Principal Amount): "));
+    public Long init(){
+        try
+        {
+            Scanner scanner = new Scanner(System.in);
+            Double val;
 
-            // Prompt and validate interest rate
-            setInterestRate(promptForNonNegativeDouble(scanner, "Enter rate of interest (0-100): ", 0.0, 100.0));
-
-            // Prompt and validate time period
-            setTimePeriod(promptForPositiveDouble(scanner, "Enter the time period of investment (in years): "));
-
-            // Use: Calculate and display total return
-            Long totalReturn = calculateReturn();
-            System.out.println("Your total gain will be: " + totalReturn);
-            return totalReturn;
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
-            return -1L; // Return error indicator
-        }
-    }
-
-    private Double promptForPositiveDouble(Scanner scanner, String message) {
-        while (true) {
-            System.out.print(message);
-            try {
-                Double input = Double.parseDouble(scanner.nextLine().trim());
-                if (input > 0) {
-                    return input; // Valid positive input
-                } else {
-                    System.out.println("Please enter a positive value.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric value.");
+            while (true) {
+                System.out.print("Enter your total investment ( Principle Amount ) : ");
+                val = scanner.nextDouble();
+                if (val > 0)
+                    break;
+                System.out.println("Please Enter positive amount value :: ");
             }
-        }
-    }
+            setPrincipleAmount(val);
 
-    private Double promptForNonNegativeDouble(Scanner scanner, String message, double min, double max) {
-        while (true) {
-            System.out.print(message);
-            try {
-                Double input = Double.parseDouble(scanner.nextLine().trim());
-                if (input >= min && input <= max) {
-                    return input; // Valid range input
-                } else {
-                    System.out.println("Please enter a value between " + min + " and " + max + ".");
+            while (true) {
+                System.out.print("Enter rate of interest : ");
+                val = scanner.nextDouble();
+                if (val >= 0) {
+                    break;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a numeric value.");
+                System.out.println("Please Enter Non-negative interest rate in range 0 to 100 : ");
             }
+            setInterestRate(val);
+
+            while (true) {
+                System.out.print("Enter Time period of investment terms of no. of years : ");
+                val = scanner.nextDouble();
+                if (val > 0) {
+                    break;
+                }
+                System.out.println("Please Enter positive no. of years in  : ");
+            }
+            setTimePeriod(val);
+
+            Long totalAmnt = calculateReturn();
+            System.out.println("Your total gain will be : " + totalAmnt);
+            return totalAmnt;
+        }catch (Exception e){
+            return -1L;
         }
     }
 
-    private Long calculateReturn() {
-        // Use: Compute total amount using compound interest formula
-        Double totalAmount = principleAmount * Math.pow(1 + (interestRate / 100), timePeriod);
-        return totalAmount.longValue(); // Return rounded total amount
+    private Long calculateReturn(){
+        Double amnt = principleAmount * Math.pow(1 + (1.0*interestRate/100),timePeriod);
+        return amnt.longValue();
     }
 }
+
