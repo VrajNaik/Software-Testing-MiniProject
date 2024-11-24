@@ -87,6 +87,11 @@ public class Main {
                 new SWPCalculator().init();
                 break;
 
+            case 7:
+                System.out.println("\n---- TAX CALCULATOR ----");
+                new TaxCalculator().init();
+                break;
+
             default:
                 displayInvalidOptionMessage();
         }
