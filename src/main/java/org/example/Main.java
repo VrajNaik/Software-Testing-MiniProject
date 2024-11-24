@@ -49,6 +49,7 @@ public class Main {
         System.out.println(" 4. PPF Calculator - Calculate PPF maturity");
         System.out.println(" 5. SIP Calculator - Systematic investment planning");
         System.out.println(" 6. SWP Calculator - Systematic withdrawal planning");
+        System.out.println(" 7. Income Tax Calculator");
         System.out.println(" 0. Exit - Close the application");
         System.out.println("========================================");
     }
