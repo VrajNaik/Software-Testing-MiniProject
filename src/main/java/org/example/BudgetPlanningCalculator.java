@@ -10,11 +10,16 @@ import java.util.*;
  */
 public class BudgetPlanningCalculator {
 
-    public static void main(String[] args) {
-        BudgetPlanningCalculator calculator = new BudgetPlanningCalculator();
-        calculator.runBudgetPlanner();
+    /**
+     * Entry point for integration into a menu-driven system.
+     */
+    public void init() {
+        runBudgetPlanner();
     }
 
+    /**
+     * Main method to execute the budget planner.
+     */
     public void runBudgetPlanner() {
         Scanner scanner = new Scanner(System.in);
 

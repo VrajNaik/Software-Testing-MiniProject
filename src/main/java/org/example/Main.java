@@ -103,6 +103,11 @@ public class Main {
                 new GoalSavingsCalculator().init();
                 break;
 
+            case 10:
+                System.out.println("\n---- BUDGET PLANNING CALCULATOR ----");
+                new BudgetPlanningCalculator().init();
+                break;
+
             default:
                 displayInvalidOptionMessage();
         }
