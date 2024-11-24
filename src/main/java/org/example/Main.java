@@ -93,6 +93,11 @@ public class Main {
                 new TaxCalculator().init();
                 break;
 
+            case 8:
+                System.out.println("\n---- RETIREMENT CORPUS CALCULATOR ----");
+                new RetirementCorpusCalculator().init();
+                break;
+
             default:
                 displayInvalidOptionMessage();
         }

@@ -4,10 +4,21 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Advanced Retirement Corpus Calculator with exception handling and complex control flow.
+ * Advanced Retirement Corpus Calculator with exception handling, nested conditions,
+ * and modular structure for integration into a menu system.
  */
 public class RetirementCorpusCalculator {
 
+    /**
+     * Entry point for the Retirement Corpus Calculator.
+     */
+    public void init() {
+        calculateRetirementCorpus();
+    }
+
+    /**
+     * Method to perform retirement corpus calculation with user inputs.
+     */
     public void calculateRetirementCorpus() {
         Scanner scanner = new Scanner(System.in);
         int currentAge = 0, retirementAge = 0, lifeExpectancy = 0;
