@@ -15,6 +15,23 @@ public class RetirementCorpusCalculator {
     public void init() {
         calculateRetirementCorpus();
     }
+    public double calculateCorpus(int currentAge, int retirementAge, int lifeExpectancy,
+                                  double currentExpenses, double inflationRate, double returnRate) {
+        if (currentAge >= retirementAge) {
+            throw new IllegalArgumentException("Retirement age must be greater than current age.");
+        }
+        if (lifeExpectancy <= retirementAge) {
+            throw new IllegalArgumentException("Life expectancy must be greater than retirement age.");
+        }
+        if (currentExpenses <= 0 || inflationRate < 0 || returnRate <= 0) {
+            throw new IllegalArgumentException("All financial inputs must be positive values.");
+        }
+
+        int yearsUntilRetirement = retirementAge - currentAge;
+        double futureExpenses = currentExpenses * Math.pow(1 + inflationRate / 100, yearsUntilRetirement);
+        int retirementYears = lifeExpectancy - retirementAge;
+        return (futureExpenses * 12) * ((1 - Math.pow(1 + returnRate / 100, -retirementYears)) / (returnRate / 100));
+    }
 
     /**
      * Method to perform retirement corpus calculation with user inputs.

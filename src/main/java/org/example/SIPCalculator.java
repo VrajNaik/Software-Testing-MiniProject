@@ -3,153 +3,82 @@ package org.example;
 import java.util.Scanner;
 
 public class SIPCalculator {
-    private Double monthlyInvestment;                   // Monthly investment amount
-    private Double expectedReturnRateInPercentage;      // Annual return rate (percentage)
-    private Double timePeriodInYear;                    // Investment period in years
+    Double monthlyInvestment;
+    Double expectedReturnRateInPercentage;
+    Double timePeriodInYear;
 
-    // Getter and Setter for Monthly Investment
     public Double getMonthlyInvestment() {
-        return monthlyInvestment;                      // Access monthly investment value
+        return monthlyInvestment;
     }
 
     public void setMonthlyInvestment(Double monthlyInvestment) {
-        this.monthlyInvestment = monthlyInvestment;    // Assign monthly investment value
+        this.monthlyInvestment = monthlyInvestment;
     }
 
-    // Getter and Setter for Expected Return Rate
     public Double getExpectedReturnRateInPercentage() {
-        return expectedReturnRateInPercentage;         // Access annual return rate
+        return expectedReturnRateInPercentage;
     }
 
     public void setExpectedReturnRateInPercentage(Double expectedReturnRateInPercentage) {
-        this.expectedReturnRateInPercentage = expectedReturnRateInPercentage; // Assign annual return rate
+        this.expectedReturnRateInPercentage = expectedReturnRateInPercentage;
     }
 
-    // Getter and Setter for Time Period
     public Double getTimePeriodInYear() {
-        return timePeriodInYear;                       // Access investment period
+        return timePeriodInYear;
     }
 
     public void setTimePeriodInYear(Double timePeriodInYear) {
-        this.timePeriodInYear = timePeriodInYear;      // Assign investment period
+        this.timePeriodInYear = timePeriodInYear;
     }
 
-    // Constructor
-    public SIPCalculator() {
-    }
-
-    // Entry Point for Initialization
-    public Long init() {
-        try {
+    public Long init(){
+        try{
+            Double val;
             Scanner scanner = new Scanner(System.in);
 
-            // Collect and Validate Monthly Investment
-            Double monthlyInvestmentValue = collectPositiveInput(scanner, "Enter your monthly investment amount: ");
-            Double validatedMonthlyInvestment = validateInvestment(monthlyInvestmentValue);
-            setMonthlyInvestment(validatedMonthlyInvestment);
+            while(true){
+                System.out.print("Enter your monthly investment amount : ");
+                val = scanner.nextDouble();
+                if(val>=0){
+                    break;
+                }
+                System.out.println("Please enter positive investment amount : ");
+            }
+            setMonthlyInvestment(val);
 
-            // Collect and Validate Expected Return Rate
-            Double returnRateInput = collectPositiveInput(scanner, "Enter Expected Return Rate in percentage (per annum): ");
-            Double validatedReturnRate = validateReturnRate(returnRateInput);
-            Double monthlyReturnRate = calculateMonthlyReturnRate(validatedReturnRate);
-            setExpectedReturnRateInPercentage(monthlyReturnRate);
+            while(true){
+                System.out.print("Enter Expected Return Rate in percentage (per annum) : ");
+                val = scanner.nextDouble();
+                if(val>=0){
+                    break;
+                }
+                System.out.println("Please enter valid return rate");
+            }
+            setExpectedReturnRateInPercentage(val*1.0/12);
 
-            // Collect and Validate Time Period
-            Double timePeriodInput = collectPositiveInput(scanner, "Enter time period for which you want to invest (in years): ");
-            Double validatedTimePeriod = validateTimePeriod(timePeriodInput);
-            setTimePeriodInYear(validatedTimePeriod);
+            while(true){
+                System.out.print("Enter time period for which you want to invest : ");
+                val = scanner.nextDouble();
+                if(val>=0){
+                    break;
+                }
+                System.out.println("Please enter valid return rate");
+            }
+            setTimePeriodInYear(val);
 
-            // Perform Final Calculation
             Long totalValue = calculateReturn();
-            displayResult(totalValue);
-
+            System.out.println("Your total value will be : " + totalValue);
             return totalValue;
-        } catch (Exception e) {
-            handleError(e);
+        }
+        catch(Exception e){
             return -1L;
         }
     }
 
-    // Method to Collect Positive Input
-    private Double collectPositiveInput(Scanner scanner, String promptMessage) {
-        System.out.print(promptMessage);
-        String input = scanner.nextLine();
-        return parseDoubleInput(input);
-    }
-
-    // Parse Double Input
-    private Double parseDoubleInput(String input) {
-        return Double.parseDouble(input.trim()); // Trim and convert input to Double
-    }
-
-    // Validate Investment Amount
-    private Double validateInvestment(Double investment) {
-        if (investment <= 0) {
-            return defaultInvestment();
-        }
-        return investment;
-    }
-
-    // Validate Return Rate
-    private Double validateReturnRate(Double rate) {
-        if (rate < 0) {
-            return defaultReturnRate();
-        }
-        return rate;
-    }
-
-    // Validate Time Period
-    private Double validateTimePeriod(Double period) {
-        if (period <= 0) {
-            return defaultTimePeriod();
-        }
-        return period;
-    }
-
-    // Default Values
-    private Double defaultInvestment() {
-        return 1000.0; // Default minimum investment
-    }
-
-    private Double defaultReturnRate() {
-        return 6.0; // Default annual return rate
-    }
-
-    private Double defaultTimePeriod() {
-        return 1.0; // Default time period in years
-    }
-
-    // Calculate Monthly Return Rate
-    private Double calculateMonthlyReturnRate(Double annualRate) {
-        return annualRate / 12; // Convert annual rate to monthly rate
-    }
-
-    // Display Final Result
-    private void displayResult(Long totalValue) {
-        System.out.println("Your total value will be: " + totalValue);
-    }
-
-    // Handle Errors
-    private void handleError(Exception e) {
-        System.out.println("An error occurred: " + e.getMessage());
-    }
-
-    // Final Return Calculation
-    public Long calculateReturn() {
-        // Retrieve Inputs
-        Double monthlyInvestmentValue = getMonthlyInvestment();
-        Double monthlyRate = getExpectedReturnRateInPercentage();
-        Double timePeriodMonths = getTimePeriodInYear() * 12;
-
-        // Intermediate Calculations
-        Double rateFactor = 1 + (monthlyRate / 100);
-        Double compoundFactor = Math.pow(rateFactor, timePeriodMonths);
-        Double numerator = compoundFactor - 1;
-        Double denominator = monthlyRate / 100;
-
-        // Final Calculation
-        Double totalAmount = monthlyInvestmentValue * (numerator / denominator) * rateFactor;
-        Double roundedAmount = Math.floor(totalAmount); // Explicit rounding
-        return roundedAmount.longValue();
+    public Long calculateReturn(){
+        Double amount = getMonthlyInvestment() *
+                ((Math.pow((1 + 1.0*getExpectedReturnRateInPercentage()/100), getTimePeriodInYear()*12)-1)/(1.0*getExpectedReturnRateInPercentage()/100)) * (1 + (1.0*getExpectedReturnRateInPercentage()/100));
+        Long totalValue = amount.longValue();
+        return totalValue;
     }
 }

@@ -36,5 +36,4 @@ public class EMICalculatorTest {
     public void testCase4(){
         testing(input4, 86405L);
     }
-
 }

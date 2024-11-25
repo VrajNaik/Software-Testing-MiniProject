@@ -5,132 +5,115 @@ import java.util.Scanner;
 
 public class SWPCalculator {
 
-    private Double totalInvestment;   // Total investment amount
-    private Double withdrawalAmount; // Monthly withdrawal amount
-    private Double expectedReturnRate; // Annual return rate in percentage
-    private Double timePeriod;       // Investment duration in years
+    Double totalInvestment;
 
-    // Constructor
-    public SWPCalculator() {
-    }
-
-    // Getters and Setters
     public Double getTotalInvestment() {
-        return totalInvestment; // Returns the total investment
+        return totalInvestment;
     }
 
     public void setTotalInvestment(Double totalInvestment) {
-        this.totalInvestment = totalInvestment; // Sets the total investment
+        this.totalInvestment = totalInvestment;
     }
 
     public Double getWithdrawalAmount() {
-        return withdrawalAmount; // Returns the withdrawal amount
+        return withdrawalAmount;
     }
 
     public void setWithdrawalAmount(Double withdrawalAmount) {
-        this.withdrawalAmount = withdrawalAmount; // Sets the withdrawal amount
+        this.withdrawalAmount = withdrawalAmount;
     }
 
     public Double getExpectedReturnRate() {
-        return expectedReturnRate; // Returns the expected return rate
+        return expectedReturnRate;
     }
 
     public void setExpectedReturnRate(Double expectedReturnRate) {
-        this.expectedReturnRate = expectedReturnRate; // Sets the expected return rate
+        this.expectedReturnRate = expectedReturnRate;
     }
 
     public Double getTimePeriod() {
-        return timePeriod; // Returns the investment period
+        return timePeriod;
     }
 
     public void setTimePeriod(Double timePeriod) {
-        this.timePeriod = timePeriod; // Sets the investment period
+        this.timePeriod = timePeriod;
     }
 
-    // Initialization Method
-    public Long init() {
-        try {
+    Double withdrawalAmount;
+    Double expectedReturnRate;
+    Double timePeriod;
+
+    public SWPCalculator(){
+    }
+
+    public Long init(){
+        try{
             Scanner scanner = new Scanner(System.in);
+            Double val;
 
-            // Collect Total Investment Amount
-            Double investmentInput = collectPositiveInput(scanner, "Enter total amount of investment: ");
-            setTotalInvestment(investmentInput);
+            while(true) {
+                System.out.print("Enter total amount of investment : ");
+                val = scanner.nextDouble();
 
-            // Collect Withdrawal Amount
-            Double withdrawalInput = collectPositiveInput(scanner, "Enter amount of withdrawal per month: ");
-            setWithdrawalAmount(withdrawalInput);
+                if(val>=0)
+                    break;
+                System.out.println("Please enter correct non-negative amount of investment ::");
+            }
+            setTotalInvestment(val);
 
-            // Collect Expected Return Rate
-            Double returnRateInput = collectExpectedReturnRate(scanner, "Enter expected annual return rate (percentage): ");
-            setExpectedReturnRate(returnRateInput);
+            while(true) {
+                System.out.print("Enter amount of withdrawal per month : ");
+                val = scanner.nextDouble();
 
-            // Collect Time Period
-            Double timePeriodInput = collectPositiveInput(scanner, "Enter time period in years: ");
-            setTimePeriod(timePeriodInput);
+                if(val>=0)
+                    break;
+                System.out.println("Please enter correct non-negative amount of withdrawal ::");
+            }
+            setWithdrawalAmount(val);
 
-            // Perform Calculation
-            Double interestGained = calculateReturn();
-            displayResult(interestGained);
+            System.out.print("Enter amount of expected annual return rate : ");
+            val = scanner.nextDouble();
+            setExpectedReturnRate(val);
 
-            return Math.round(interestGained);
-        } catch (Exception exception) {
-            handleException(exception);
+            while(true) {
+                System.out.print("Enter amount of time period as no. of years : ");
+                val = scanner.nextDouble();
+
+                if(val>=0)
+                    break;
+                System.out.println("Please enter correct non-negative years value ::");
+            }
+            setTimePeriod(val);
+
+            Double returnAmnt = calculateReturn();
+            System.out.println("Your interest gain will be : "+ Math.round(returnAmnt));
+            return returnAmnt.longValue();
+        }
+        catch(Exception exception){
             return -1L;
         }
     }
 
-    // Method to Collect Positive Input
-    private Double collectPositiveInput(Scanner scanner, String message) {
-        while (true) {
-            try {
-                System.out.print(message);
-                Double value = scanner.nextDouble();
-                if (value >= 0) {
-                    return value;
-                }
-                System.out.println("Please enter a non-negative value.");
-            } catch (InputMismatchException ex) {
-                System.out.println("Invalid input! Please enter a valid number.");
-                scanner.nextLine(); // Clear invalid input
-            }
-        }
-    }
+    private Double calculateReturn(){
 
-    // Method to Collect Expected Return Rate
-    private Double collectExpectedReturnRate(Scanner scanner, String message) {
-        System.out.print(message);
-        return scanner.nextDouble(); // Assumes non-negative rate provided
-    }
+        double deduct = getWithdrawalAmount().doubleValue();
+        double val1 = getTotalInvestment().doubleValue();
+        int n = getTimePeriod().intValue()*12;
+        double rate = getExpectedReturnRate().doubleValue() / 12;
+        double gain = 0;
 
-    // Method to Display Result
-    private void displayResult(Double interestGained) {
-        System.out.println("Your interest gain will be: " + Math.round(interestGained));
-    }
+        for(int i=0;i<n && val1>0;i++){
 
-    // Error Handling
-    private void handleException(Exception exception) {
-        System.out.println("An error occurred during calculation: " + exception.getMessage());
-    }
+            val1 -= deduct;
 
-    // Core Calculation Method
-    private Double calculateReturn() {
-        Double remainingInvestment = getTotalInvestment(); // Initial investment amount
-        Double monthlyWithdrawal = getWithdrawalAmount();  // Monthly withdrawal amount
-        Double monthlyRate = getExpectedReturnRate() / 12; // Monthly interest rate
-        int totalMonths = (int) (getTimePeriod() * 12);    // Convert years to months
-        Double totalGain = 0.0;                           // Cumulative interest earned
+            if(val1 <=0 )
+                break;
 
-        // Simulate each month
-        for (int month = 0; month < totalMonths && remainingInvestment > 0; month++) {
-            remainingInvestment -= monthlyWithdrawal; // Deduct withdrawal amount
-            if (remainingInvestment <= 0) {
-                break; // Break if funds are exhausted
-            }
-            Double interestEarned = remainingInvestment * (monthlyRate / 100); // Monthly interest
-            totalGain += interestEarned; // Add interest to total gain
-            remainingInvestment += interestEarned; // Update remaining investment
+            double tmp = val1 * (rate/100);
+            gain += tmp;
+            val1 += tmp;
         }
 
-        return totalGain; // Total interest gained
+        return gain;
     }
 }
