@@ -16,6 +16,7 @@ public class GoalSavingsCalculator {
         calculateGoalSavings();
     }
 
+
     /**
      * Method to calculate the savings required to meet a financial goal.
      */
@@ -29,7 +30,6 @@ public class GoalSavingsCalculator {
 
         // Input validation for goal and savings
         while (true) {
-            try {
                 System.out.print("Enter your financial goal amount (₹): ");
                 goalAmount = scanner.nextDouble();
 
@@ -37,7 +37,8 @@ public class GoalSavingsCalculator {
                 years = scanner.nextInt();
 
                 if (goalAmount <= 0 || years <= 0) {
-                    throw new IllegalArgumentException("Goal amount and time frame must be positive.");
+                    System.out.println("Goal amount and time frame must be positive.");
+                    continue;
                 }
 
                 System.out.print("Enter the expected annual return rate (in %, e.g., 8 for 8%): ");
@@ -47,15 +48,10 @@ public class GoalSavingsCalculator {
                 initialSavings = scanner.nextDouble();
 
                 if (returnRate <= 0 || initialSavings < 0) {
-                    throw new IllegalArgumentException("Return rate must be positive, and savings cannot be negative.");
+                    System.out.println("Return rate must be positive, and savings cannot be negative.");
+                    continue;
                 }
-                break; // Break loop if inputs are valid
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a valid numeric value.");
-                scanner.next(); // Clear invalid input
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
+                break; // Break loop if inputs are vali
         }
 
         // Choose savings frequency
@@ -90,3 +86,61 @@ public class GoalSavingsCalculator {
         }
     }
 }
+
+
+
+//            try {
+//                System.out.print("Enter your financial goal amount (₹): ");
+//                goalAmount = scanner.nextDouble();
+//
+//                System.out.print("Enter the time frame to achieve your goal (in years): ");
+//                years = scanner.nextInt();
+//
+//                if (goalAmount <= 0 || years <= 0) {
+//                    throw new IllegalArgumentException("Goal amount and time frame must be positive.");
+//                }
+//
+//                System.out.print("Enter the expected annual return rate (in %, e.g., 8 for 8%): ");
+//                returnRate = scanner.nextDouble();
+//
+//                System.out.print("Enter any initial savings you already have (₹): ");
+//                initialSavings = scanner.nextDouble();
+//
+//                if (returnRate <= 0 || initialSavings < 0) {
+//                    throw new IllegalArgumentException("Return rate must be positive, and savings cannot be negative.");
+//                }
+//                break; // Break loop if inputs are valid
+//            } catch (InputMismatchException e) {
+//                System.out.println("Invalid input! Please enter a valid numeric value.");
+//                scanner.next(); // Clear invalid input
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("Error: " + e.getMessage());
+//            }
+
+//    public void calculateGoalSavings(double goalAmount, int years, double returnRate, double initialSavings, String frequency) {
+//        // Validate inputs
+//        if (goalAmount <= 0 || years <= 0) {
+//            throw new IllegalArgumentException("Goal amount and time frame must be positive.");
+//        }
+//        if (returnRate <= 0 || initialSavings < 0) {
+//            throw new IllegalArgumentException("Return rate must be positive, and savings cannot be negative.");
+//        }
+//        if (!frequency.equalsIgnoreCase("monthly") && !frequency.equalsIgnoreCase("annual")) {
+//            throw new IllegalArgumentException("Invalid savings frequency. Choose 'monthly' or 'annual'.");
+//        }
+//
+//        // Perform calculations (same logic as your original method)
+//        double futureValueOfSavings = initialSavings * Math.pow(1 + returnRate / 100, years);
+//        double remainingGoal = goalAmount - futureValueOfSavings;
+//
+//        if (remainingGoal <= 0) {
+//            System.out.println("\nCongratulations! Your current savings are sufficient to achieve your goal.");
+//        } else {
+//            int periods = frequency.equalsIgnoreCase("monthly") ? years * 12 : years;
+//            double periodicRate = returnRate / (frequency.equalsIgnoreCase("monthly") ? 12 : 1) / 100;
+//            double savingsPerPeriod = remainingGoal * periodicRate / (Math.pow(1 + periodicRate, periods) - 1);
+//
+//            System.out.printf("\nTo achieve your goal of ₹%.2f, you need to save ₹%.2f %s.\n",
+//                    goalAmount, savingsPerPeriod, frequency.equalsIgnoreCase("monthly") ? "per month" : "per year");
+//        }
+//    }
