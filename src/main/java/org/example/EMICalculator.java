@@ -38,7 +38,7 @@ public class EMICalculator {
             Double val;
 
             while(true) {
-                System.out.print("Enter your loan amount : ");
+                System.out.print("Enter your loan amount: ");
                 val = scanner.nextDouble();
                 if(val>0)
                     break;
